@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Link Maker</title>
+</head>
+<body>
+  <h1>Link Maker</h1>
+  <div class="row">
+    <span>https</span>
+    <input id="urlInput" type="text" placeholder="example.com">
+    <button id="generateBtn">generate</button>
+  </div>
+  <br>
+  <div id="result" aria-live="polite"></div>
+
+  <script>
+    const input = document.getElementById('urlInput');
+    const btn = document.getElementById('generateBtn');
+    const result = document.getElementById('result');
+
+    function normalizeUrl(raw){
+      if (!raw) return '';
+      raw = raw.trim();
+      if (!/^https?:\/\//i.test(raw)) {
+        raw = 'https://' + raw;
+      }
+      try {
+        new URL(raw);
+        return raw;
+      } catch(e) {
+        return '';
+      }
+    }
+
+    function generateLink() {
+      const raw = input.value;
+      const url = normalizeUrl(raw);
+      result.innerHTML = '';
+      if(!url){
+        result.textContent = 'invalid url !!';
+        result.style.color = 'crimson';
+        return;
+      }
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = url;
+      result.style.color = '';
+      result.appendChild(a);
+    }
+
+    btn.addEventListener('click', generateLink);
+    input.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') generateLink(); });
+  </script>
+</body>
+</html>
