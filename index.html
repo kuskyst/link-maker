@@ -37,7 +37,6 @@
     function generateLink() {
       const raw = input.value;
       const url = normalizeUrl(raw);
-      result.innerHTML = '';
       if(!url){
         result.textContent = 'invalid url !!';
         result.style.color = 'crimson';
@@ -49,7 +48,9 @@
       a.rel = 'noopener noreferrer';
       a.textContent = url;
       result.style.color = '';
-      result.appendChild(a);
+      const wrapper = document.createElement('div');
+      wrapper.appendChild(a);
+      result.appendChild(wrapper);
     }
 
     btn.addEventListener('click', generateLink);
